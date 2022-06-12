@@ -27,5 +27,23 @@ namespace exam.Controllers
 
 			return Ok(await _databaseService.GetMusicianAsync(Convert.ToInt32(idMusician)));
 		}
+
+		[HttpDelete]
+		public async Task<IActionResult> DeleteMusicianAsync([FromQuery] string idMusician)
+		{
+			if (idMusician == null)
+				return BadRequest("No ID provided");
+
+			try
+			{
+				await _databaseService.DeleteMusicianAsync(Convert.ToInt32(idMusician));
+			}
+			catch (Exception)
+			{
+				return BadRequest("Invalid musician");
+			}
+
+			return Ok();
+		}
 	}
 }

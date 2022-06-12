@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 
 using exam.Models;
@@ -38,6 +40,37 @@ namespace exam.Services
 					.ToList()
 				})
 				.FirstOrDefaultAsync();
+			}
+		}
+
+		public async Task DeleteMusicianAsync(int idMusician)
+		{
+			using (var transaction = await _databaseContext.Database.BeginTransactionAsync())
+			{
+				try
+				{
+					var found = await _databaseContext.Musicians
+						.Where(musician => musician.IdMusician.Equals(idMusician))
+						.AnyAsync(musician => musician.MusicTracks
+							.Select(musicTrack => musicTrack.Track)
+							.Any(track => track.IdMusicAlbum == null)
+						);
+
+					if (found)
+					{
+						var musician = new Musician { IdMusician = idMusician };
+
+						_databaseContext.Musicians.Attach(musician);
+						_databaseContext.Musicians.Remove(musician);
+
+						await _databaseContext.SaveChangesAsync();
+						await transaction.CommitAsync();
+					}
+				}
+				catch (Exception)
+				{
+					await transaction.RollbackAsync();
+				}
 			}
 		}
 	}
