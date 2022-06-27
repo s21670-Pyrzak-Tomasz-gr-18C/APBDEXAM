@@ -36,7 +36,7 @@ namespace exam.Controllers
 
 			try
 			{
-				await _databaseService.DeleteMusicianAsync(Convert.ToInt32(idMusician));
+				//await _databaseService.DeleteMusicianAsync(Convert.ToInt32(idMusician));
 			}
 			catch (Exception)
 			{
