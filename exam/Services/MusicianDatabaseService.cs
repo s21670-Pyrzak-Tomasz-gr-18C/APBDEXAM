@@ -19,22 +19,23 @@ namespace exam.Services
 			_databaseContext = databaseContext;
 		}
 
-		public async Task<MusicianDto> GetMusicianAsync(int idMusician)
+		public async Task<AlbumDto> GetMusicianAsync(int idAlbum)
 		{
 			using (var Transaction = await _databaseContext.Database.BeginTransactionAsync())
 			{
-				return await _databaseContext.Musicians
-				.Where(musician => musician.IdMusician == idMusician)
-				.Select(musician => new MusicianDto
+				return await _databaseContext.Albums
+				.Where(album => album.IdAlbum == idAlbum)
+				.Select(album => new AlbumDto
 				{
-					FirstName = musician.FirstName,
-					LastName = musician.LastName,
-					Nickname = musician.Nickname,
-					Tracks = musician.MusicTracks
+					AlbumName = album.AlbumName,
+					PublishDate = album.PublishDate,
+					IdMusicLabel = album.IdMusicLabel,
+					MusicLabel = album.MusicLabel,
+					Tracks = album.Tracks
 					.Select(musicTracks => new TrackDto
 					{
-						TrackName = musicTracks.Track.TrackName,
-						Duration = musicTracks.Track.Duration
+						TrackName = musicTracks.TrackName,
+						Duration = musicTracks.Duration
 					})
 					.OrderBy(track => track.Duration)
 					.ToList()

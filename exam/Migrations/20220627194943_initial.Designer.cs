@@ -10,8 +10,8 @@ using exam.Models;
 namespace exam.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220612084116_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20220627194943_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
