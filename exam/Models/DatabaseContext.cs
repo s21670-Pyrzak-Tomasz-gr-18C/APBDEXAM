@@ -16,21 +16,21 @@ namespace exam.Models
 		{
 		}
 
-		public DbSet<Musician> Musicians { get; set; }
-		public DbSet<MusicianTrack> MusicianTracks { get; set; }
-		public DbSet<Track> Tracks { get; set; }
-		public DbSet<Album> Albums { get; set; }
-		public DbSet<MusicLabel> MusicLabels { get; set; }
+		public DbSet<Team> Teams { get; set; }
+		public DbSet<Membership> Memberships { get; set; }
+		public DbSet<Organization> Organizations { get; set; }
+		public DbSet<Member> Members { get; set; }
+		public DbSet<File> Files { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
 
-			modelBuilder.ApplyConfiguration(new MusicianConfiguration());
-			modelBuilder.ApplyConfiguration(new MusicianTrackConfiguration());
-			modelBuilder.ApplyConfiguration(new TrackConfiguration());
-			modelBuilder.ApplyConfiguration(new AlbumConfuguration());
-			modelBuilder.ApplyConfiguration(new MusicLabelConfiguration());
+			modelBuilder.ApplyConfiguration(new FileConfiguration());
+			modelBuilder.ApplyConfiguration(new MembershipConfiguration());
+			modelBuilder.ApplyConfiguration(new MemberConfiguration());
+			modelBuilder.ApplyConfiguration(new TeamConfuguration());
+			modelBuilder.ApplyConfiguration(new OrganizationConfiguration());
 		}
 	}
 }

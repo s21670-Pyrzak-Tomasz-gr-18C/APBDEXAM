@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using exam.Models;
 
 namespace exam.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20220628170413_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,7 +46,7 @@ namespace exam.Migrations
 
                     b.HasIndex("TeamID");
 
-                    b.ToTable("Files");
+                    b.ToTable("MusicLabels");
 
                     b.HasData(
                         new
@@ -117,7 +119,7 @@ namespace exam.Migrations
 
                     b.HasIndex("OrganizationID");
 
-                    b.ToTable("Members");
+                    b.ToTable("Albums");
 
                     b.HasData(
                         new
@@ -177,7 +179,7 @@ namespace exam.Migrations
 
                     b.HasIndex("TeamID");
 
-                    b.ToTable("Memberships");
+                    b.ToTable("MusicianTracks");
 
                     b.HasData(
                         new
@@ -231,7 +233,7 @@ namespace exam.Migrations
 
                     b.HasKey("OrganizationID");
 
-                    b.ToTable("Organizations");
+                    b.ToTable("Tracks");
 
                     b.HasData(
                         new
@@ -289,7 +291,7 @@ namespace exam.Migrations
 
                     b.HasIndex("OrganizationID");
 
-                    b.ToTable("Teams");
+                    b.ToTable("Musicians");
 
                     b.HasData(
                         new

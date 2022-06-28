@@ -19,60 +19,30 @@ namespace exam.Services
 			_databaseContext = databaseContext;
 		}
 
-		public async Task<AlbumDto> GetMusicianAsync(int idAlbum)
+
+		public async Task<TeamDto> GetTeamAsync(int idTeam)
 		{
 			using (var Transaction = await _databaseContext.Database.BeginTransactionAsync())
 			{
-				return await _databaseContext.Albums
-				.Where(album => album.IdAlbum == idAlbum)
-				.Select(album => new AlbumDto
+				return await _databaseContext.Teams
+				.Where(team => team.TeamID == idTeam)
+				.Select(team => new TeamDto
 				{
-					AlbumName = album.AlbumName,
-					PublishDate = album.PublishDate,
-					IdMusicLabel = album.IdMusicLabel,
-					MusicLabel = album.MusicLabel,
-					Tracks = album.Tracks
-					.Select(musicTracks => new TrackDto
+					TeamName = team.TeamName,
+					OrganizationID = team.OrganizationID,
+					TeamDescription = team.TeamDescription,
+					Organization = team.Organization,
+					Memberships = team.Memberships
+					.Select(membership => new MembershipDTO
 					{
-						TrackName = musicTracks.TrackName,
-						Duration = musicTracks.Duration
+						Member = membership.Member,
 					})
-					.OrderBy(track => track.Duration)
+					.OrderBy(membership => membership.MembershipDate)
 					.ToList()
 				})
 				.FirstOrDefaultAsync();
 			}
 		}
 
-		public async Task DeleteMusicianAsync(int idMusician)
-		{
-			using (var transaction = await _databaseContext.Database.BeginTransactionAsync())
-			{
-				try
-				{
-					var found = await _databaseContext.Musicians
-						.Where(musician => musician.IdMusician.Equals(idMusician))
-						.AnyAsync(musician => musician.MusicTracks
-							.Select(musicTrack => musicTrack.Track)
-							.Any(track => track.IdMusicAlbum == null)
-						);
-
-					if (found)
-					{
-						var musician = new Musician { IdMusician = idMusician };
-
-						_databaseContext.Musicians.Attach(musician);
-						_databaseContext.Musicians.Remove(musician);
-
-						await _databaseContext.SaveChangesAsync();
-						await transaction.CommitAsync();
-					}
-				}
-				catch (Exception)
-				{
-					await transaction.RollbackAsync();
-				}
-			}
-		}
-	}
+	
 }
